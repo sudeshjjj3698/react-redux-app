@@ -15,16 +15,16 @@ function UserComponent(props) {
             <div className="row">
                 <h2 className="text-center">User List</h2>
                 {
-                    users && users.map(user=>(
+                   props.loading?(<h2>Loading....</h2>):props.error?(<h2>{props.error}</h2>):users? users.map(user=>(
                         <div className="card" style={{"width": "23rem"}} key={user.id}>
                         <img className="card-img-top" src={user.avatar} alt="--"/>
                         <div className="card-body">
                             <h5 className="card-title">{user.first_name} {user.last_name}</h5>
                             <p className="card-text">{user.email}</p>
-                            <Link to={`/${user.id}`}><button className="btn btn-primary">Go somewhere</button></Link>
+                            <Link to={`/${user.id}`}><button className="btn btn-primary">Details</button></Link>
                         </div>
                         </div>
-                    ))}
+                    )):''}
             </div>
     )
 }

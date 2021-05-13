@@ -1,26 +1,44 @@
-import React from 'react'
+import React,{useEffect} from 'react'
+import {connect} from 'react-redux'
 import {
     useParams
   } from "react-router-dom";
 import {Link} from "react-router-dom";
+import {getUser} from '../redux/user/userActions'
 
-function UserDetails() {
+function UserDetails(props) {
     let { userId } = useParams();
+    useEffect(()=>{
+        props.fetchUser();
+    },[props.fetchUser,userId])
     return (
         <React.Fragment>
          <Link to="/"><button className="btn btn-primary mt-2">Back</button></Link>
-        <div className="row mt-3">
+         {props.user && (<div className="row mt-3">
             <div className="card mb-3">
-                <img className="card-img-top" src="https://reqres.in/img/faces/1-image.jpg" style={{"width":"auto","height":"500px"}} alt="Card image cap"/>
+                <img className="card-img-top" src={props.user.avatar} style={{"width":"auto","height":"500px"}} alt="...."/>
                 <div className="card-body">
-                    <h5 className="card-title">Card title</h5>
-                    <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <h5 className="card-title">{props.user.first_name} {props.user.last_name}</h5>
+                    <p className="card-text">{props.user.email}</p>
                     <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
                 </div>
                 </div>
-        </div>
+        </div>)}
+        
         </React.Fragment>
     )
 }
-
-export default UserDetails
+const mapStateTOProps=state=>{
+    return{
+        user:state.user.user,
+        loading:state.user.loading,
+        error:state.user.error
+    }
+}
+const mapDispatchToProps=(dispatch,ownProps)=>{
+    const userId=ownProps.match.params.userId;
+    return{
+        fetchUser:()=>dispatch(getUser(userId))
+    }
+}
+export default connect(mapStateTOProps,mapDispatchToProps)(UserDetails)
