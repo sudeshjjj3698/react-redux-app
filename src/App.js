@@ -1,14 +1,22 @@
 import './App.css';
-import {Provider} from 'react-redux'
-import store from './redux/store'
 import UserComponent from './components/UserComponent'
+import UserDetails from './components/UserDetails'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+
+} from "react-router-dom";
 function App() {
   return (
-    <Provider store={store}>
     <div className="container">
-        <UserComponent/>
+      <Router>
+        <Switch>
+              <Route path="/" exact component={UserComponent}/>
+              <Route path="/:userId"  component={UserDetails} exact/>
+        </Switch>
+      </Router>
     </div>
-    </Provider>
   );
 }
 

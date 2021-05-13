@@ -1,7 +1,7 @@
 import React,{useEffect} from 'react'
 import {connect} from 'react-redux'
 import {getUsers} from '../redux/user/userActions'
-
+import {Link} from "react-router-dom";
 function UserComponent(props) {
     const {fetchUsers,loading,users,error}=props
     useEffect(()=>{
@@ -21,7 +21,7 @@ function UserComponent(props) {
                         <div className="card-body">
                             <h5 className="card-title">{user.first_name} {user.last_name}</h5>
                             <p className="card-text">{user.email}</p>
-                            {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
+                            <Link to={`/${user.id}`}><button className="btn btn-primary">Go somewhere</button></Link>
                         </div>
                         </div>
                     ))}
